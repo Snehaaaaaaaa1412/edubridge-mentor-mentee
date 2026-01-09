@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentor Home</title>
+    <link rel="stylesheet" href="/static/mentor_style.css">
+    <style>
+        body {
+            background-image: url('/images/homebg.png'); 
+            background-size: 70vh;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background-color: blue;
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: space-around;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: grey;
+        }
+
+        .header-title {
+            text-align: center;
+            font-size: 24px;
+            margin-top: 20px;
+            font-weight: bold;
+            background-color: blue;  
+            color: white;      
+            padding: 15px;
+            border-radius: 10px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="/project_requests/{{ email }}">Project Requests</a></li>
+            <li><a href="/mentor/chat-mentees">Chat with Mentees</a></li>
+            <li><a href="/mentor-profile?email={{ email }}">Profile</a></li>
+            <li><a href="/assign-task">Assign Tasks</a></li>
+            <li><a href="/mentor/task_submissions">View Task Submissions</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- GuidEd NITD Title Below Navbar -->
+    <div class="header-title">
+        EduBridge: Connecting Students with Experts for Project Mentorship
+    </div>
+</body>
+</html>

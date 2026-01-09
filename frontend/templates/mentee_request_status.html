@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Request Status</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
+
+    <h2>Project Request Status</h2>
+
+    {% for req in requests %}
+        <div style="background-color: #fff; padding: 15px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 0 5px rgba(0,0,0,0.1);">
+            <p><strong>Project Name:</strong> {{ req.project_name }}</p>
+            <p><strong>Description:</strong> {{ req.project_description }}</p>
+            <p><strong>Status:</strong> {{ req.status }}</p>
+            <p><strong>Mentor:</strong> {{ req.mentor_name }}</p>
+
+            {% if req.status == 'accepted' %}
+                <a href="/chat?mentor_email={{ req.mentor_email }}&mentee_email={{ mentee_email }}">
+                    <button style="padding: 8px 12px; background-color: #007BFF; color: white; border: none; border-radius: 5px;">Chat with Mentor</button>
+                </a>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+</body>
+</html>

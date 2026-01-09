@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assigned Tasks</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            padding: 20px;
+        }
+        h2 {
+            color: #333;
+        }
+        .task-box {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        .task-box h3 {
+            margin: 0;
+            color: #2e6da4;
+        }
+        .task-box p {
+            margin: 10px 0;
+        }
+        .task-box .task-action {
+            margin-top: 15px;
+        }
+        .task-box .submit-btn {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .task-box .submit-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h2>Your Assigned Tasks</h2>
+
+    {% for task in tasks %}
+        <div class="task-box">
+            <h3>{{ task.task_name }} ({{ task.project_name }})</h3>
+            <p><strong>Task No:</strong> {{ task.task_no }}</p>
+            <p><strong>Description:</strong> {{ task.task_description }}</p>
+            <p><strong>Mentor's Email:</strong> {{ task.mentor_email }}</p>
+            
+            <div class="task-action">
+                <a href="/task_submission/{{ task.task_no}}">
+                    <button class="submit-btn">Submit Task</button>
+                </a>                
+            </div>
+        </div>
+    {% endfor %}
+</body>
+</html>

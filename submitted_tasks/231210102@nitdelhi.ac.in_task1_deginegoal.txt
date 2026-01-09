@@ -1,0 +1,1 @@
+The goal is to predict the performance of students based on features like their study hours, attendance, previous grades, and other factors. The output could be a score, grade, or class (pass/fail).

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat with Mentor</title>
+</head>
+<body style="font-family: Arial,sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px;">
+
+<div style="max-width: 600px; margin: auto; background-color: #fff; border-radius: 10px; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+    <h2 style="text-align: center; color: #333;">Chat with Mentor: {{ mentor_email }}</h2>
+
+    <div style="max-height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; border-radius: 5px; background-color: #fafafa; margin-bottom: 20px;">
+        {% for msg in messages %}
+            <p style="margin-bottom: 10px;">
+                <strong style="color: #555;">{{ msg.sender }}:</strong>
+                <span style="color: #000;">{{ msg.message }}</span>
+                <br>
+                <small style="color: #999;">({{ msg.timestamp }})</small>
+            </p>
+        {% endfor %}
+    </div>
+
+    <form action="/chat/send" method="post" style="display: flex; flex-direction: column; gap: 10px;">
+        <input type="hidden" name="sender" value="mentee">
+        <input type="hidden" name="mentor_email" value="{{ mentor_email }}">
+        <input type="hidden" name="mentee_email" value="{{ mentee_email }}">
+
+        <input type="text" name="message" placeholder="Type your message..." required
+               style="padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
+
+        <button type="submit"
+                style="padding: 10px; background-color: #007BFF; color: #fff; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
+            Send
+        </button>
+    </form>
+</div>
+</body>
+</html>

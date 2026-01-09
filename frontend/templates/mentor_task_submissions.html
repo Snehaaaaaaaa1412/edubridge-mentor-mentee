@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mentor - Task Submissions</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; 
+            border-collapse: collapse; 
+            margin: 20px 0; }
+        th, td { padding: 10px; 
+            border: 1px solid #ddd; 
+            text-align: left; }
+        th { background-color: #f2f2f2; }
+        button { padding: 5px 10px; background-color: #4CAF50; 
+            color: white; 
+            border: none; 
+            cursor: pointer; }
+        button:hover { background-color: #45a049; }
+
+        /* Navbar styles */
+        nav { background-color: blue; padding: 10px; }
+        nav ul { list-style: none; margin: 0; padding: 0; }
+        nav ul li { display: inline; margin-right: 20px; }
+        nav ul li a { color: white; text-decoration: none; font-size: 16px; }
+        nav ul li a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <ul>
+            <li><a href="/mentor-home">Home</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <h2>Task Submissions</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Task Name</th>
+                <th>Mentee Email</th>
+                <th>Issues</th>
+                <th>File</th>
+                <th>Status</th>
+                <th>Feedback</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for submission in submissions %}
+            <tr>
+                <td>{{ submission.task_name }}</td>
+                <td>{{ submission.mentee_email }}</td>
+                <td>{{ submission.issues }}</td>
+                <td>
+                    {% if submission.code_file_path %}
+                    <!-- View file in the browser instead of downloading -->
+                    <a href="/{{ submission.code_file_path }}" target="_blank">View File</a>
+                    {% else %}
+                    No file submitted
+                    {% endif %}
+                </td>
+                <td>{{ submission.status }}</td>
+                <td>
+                    {% if submission.status != 'feedback_given' %}
+                    <form action="/mentor/feedback/{{ submission.id }}" method="post">
+                        <textarea name="feedback" rows="4" cols="50" required></textarea><br><br>
+                        <button type="submit">Submit Feedback</button>
+                    </form>
+                    {% else %}
+                    <span>Feedback Given</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

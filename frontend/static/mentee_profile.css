@@ -1,0 +1,103 @@
+/* General Styles */
+body {
+    background-color: #d9dee9;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #0d57b8;
+}
+.navbar .nav-link {
+    color: white;
+}
+.navbar .nav-link.active {
+    font-weight: bold;
+    color: #dadce2;
+}
+
+/* Profile Card */
+.profile-card {
+    background-color: #0d57b8; 
+    border-radius: 50; 
+    padding: 20px;
+    text-align: center;
+} */
+.profile-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid #dedfe7;
+    object-fit: cover;
+    
+     
+    
+} 
+.social-icons a {
+    color: #e7e8ec;
+    font-size: 20px;
+    margin: 0 5px;
+}
+
+ Profile Details Card 
+.card {
+    background-color: #1248dd;
+    border-radius: none;
+    border: none;
+    color: white;
+}
+
+/* Tabs */
+.nav-tabs .nav-link {
+    color: rgb(22, 17, 17);
+    border: none;
+}
+.nav-tabs .nav-link.active {
+    background-color:#0d57b8;
+    color: rgb(14, 11, 11);
+    border-radius: 10;
+}
+
+/* Forms */
+.form-label {
+    color: #180f0f;
+}
+.form-control {
+    background-color: #c5c5cf;
+    border: 1px solid #0a0909;
+    color: rgb(15, 10, 10);
+}
+.form-control:focus {
+    background-color: #dddde9;
+    border-color: #16191a;
+    box-shadow: none;
+    color: rgb(29, 21, 21);
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #0d57b8;
+    border: none;
+}
+.btn-primary:hover {
+    background-color: #101014;
+}
+
+/* Projects Section */
+.list-group-item {
+    background-color: #afafb8;
+    border: none;
+    color: rgb(17, 2, 2);
+}
+.list-group-item:hover {
+    background-color: #dcdce7;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .profile-img {
+        width: 100px;
+        height: 100px;
+    }
+}

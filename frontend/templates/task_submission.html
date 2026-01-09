@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Submission</title>
+</head>
+<body style="font-family: Arial, sans-serif;
+ background-color: #f5f5f5; 
+ padding: 40px;">
+
+    <div style="max-width: 700px; 
+    margin: auto; 
+    background-color: white; 
+    padding: 30px; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+
+        <h2 style="color: #333;">Task {{ task_no }}: {{ task_name }}</h2>
+        <p style="font-size: 16px; 
+        color: #555;"><strong>Description:</strong> {{ task_description }}</p>
+
+        {% if submitted %}
+            <h3 style="color: green;">✅ Already Submitted</h3>
+            <p style="font-size: 16px;"><strong>Issues:</strong> {{ submission[4] }}</p>
+            <p>
+                <a href="/{{ submission[5] }}" target="_blank" 
+                   style="color: #007BFF; text-decoration: none;">📥 Download Submitted File</a>
+            </p>
+        {% else %}
+            <form action="/submit_task/{{ task_no }}" method="post" enctype="multipart/form-data" style="margin-top: 30px;">
+
+                <label for="code_file" style="font-weight: bold;">Upload Code File:</label><br>
+                <input type="file" name="code_file" required style="margin: 10px 0; padding: 8px;"><br><br>
+
+                <label for="issues" style="font-weight: bold;">Issues (if any):</label><br>
+                <textarea name="issues" rows="4" cols="50" 
+                          style="margin-top: 10px; 
+                          width: 100%; 
+                          padding: 10px; 
+                          font-size: 14px; 
+                          border: 1px solid #ccc; 
+                          border-radius: 5px;"></textarea><br><br>
+
+                <button type="submit" 
+                        style="background-color: #28a745; 
+                        color: white; 
+                        padding: 10px 20px; 
+                        border: none; 
+                               border-radius: 5px; 
+                               font-size: 16px; 
+                               cursor: pointer;">
+                    🚀 Submit Task
+                </button>
+            </form>
+        {% endif %}
+    </div>
+
+</body>
+</html>

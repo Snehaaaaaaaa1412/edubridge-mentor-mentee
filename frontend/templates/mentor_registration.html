@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mentor Registration</title>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0055aa;
+        }
+    </style>
+</head>
+<body>
+    <form action="/register/mentor" method="post" enctype="multipart/form-data">
+        <h2>Mentor Registration</h2>
+
+        <label for="name">Full Name:</label>
+        <input type="text" name="name" required>
+
+        <label for="email">Email:</label>
+        <input type="email" name="email" required>
+
+        <label for="password">Create Password:</label>
+        <input type="password" name="password" required>
+
+        <label for="phone">Phone Number:</label>
+        <input type="text" name="phone" required>
+
+        <label for="photo">Profile Picture:</label>
+        <input type="file" name="profile_photo" accept="image/*" required>
+
+        <label for="department">Department:</label>
+        <select name="department" id="department" required>
+            <option value="">Select your department</option>
+            <option value="Computer Science and Engineering">Computer Science and Engineering</option>
+            <option value="Electronics and Communication Engineering">Electronics and Communication Engineering</option>
+            <option value="Electrical Engineering">Electrical Engineering</option>
+            <option value="Mechanical Engineering">Mechanical Engineering</option>
+            <option value="Applied Sciences">Applied Sciences</option>
+        </select>
+
+        <label for="designation">Designation:</label>
+        <input type="text" name="designation" required>
+
+        <label for="qualification">Qualification:</label>
+        <input type="text" name="qualification" required>
+
+        <label for="interests">Area of Interests:</label>
+        <select name="interests" id="interests" multiple required style="width: 100%;"></select>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <script>
+        const departmentInterestMap = {
+            "Computer Science and Engineering": [
+                "Optical Communication Systems",
+                "Dispersion Compensation",
+                "Broadband Optical Systems and Networks",
+                "Linear and Non-linear Systems",
+                "Radio-over-Fiber",
+                "Soliton Transmission Links",
+                "Data Mining",
+                "Data Warehousing",
+                "Databases",
+                "Data Science",
+                "Data Analytics",
+                "Big Data",
+                "Software Engineering",
+                "Security",
+                "Cloud Computing",
+                "NoSQL Databases",
+                "Query Languages",
+                "User Interfaces",
+                "Usability",
+                "Health Informatics",
+                "Blockchain",
+                "Machine Learning",
+                "Complex Networks",
+                "Growing Networks",
+                "Dynamics of Information in Complex Networks",
+                "Graph Spectra",
+                "Attacks on Complex Networks",
+                "Community Structure in Social Networking",
+                "Link Analysis",
+                "Recommender Systems",
+                "Mobile Security",
+                "5G",
+                "IPv6",
+                "VANET",
+                "Internet of Things (IoT)",
+                "Cyber Security",
+                "Fog Computing",
+                "Biometrics",
+                "Image Processing and Computer Vision",
+                "Pattern Recognition and Machine Learning",
+                "Healthcare and Robotics",
+                "Wireless Sensor Networks",
+                "Optimization Techniques",
+                "Edge Computing",
+                "Bibliometrics",
+                "Computational Fluid Dynamics",
+                "Numerical Analysis"
+            ],
+            "Electronics and Communication Engineering": [
+                "Signal Processing", "Wireless Communication", "VLSI", "Embedded Systems","Machine learning", "Next generation communication networks", "signal processing",
+                 "IoT","VLSI Design", "Analog/Digital and Mixed Signal Design", "Low Power Design",
+                 "Optical Communication Networks & Opto-electronics", "Digital and  Broadband Wireless Communication", "RoF & FSO Communication", "Electronic & Photonic Devices"
+            ],
+                 
+            "Electrical Engineering": [
+                "Power Systems", "Control Systems", "Smart Grid", "Renewable Energy"
+            ],
+            "Mechanical Engineering": [
+                "Robotics", "Thermodynamics", "Fluid Mechanics", "Computational Fluid Dynamics"
+            ],
+            "Applied Sciences": [
+                "Mathematical Modelling", "Quantum Computing", "Physics Simulations"
+            ]
+        };
+
+        const departmentSelect = document.getElementById("department");
+        const interestsSelect = document.getElementById("interests");
+
+        departmentSelect.addEventListener("change", () => {
+            const selectedDept = departmentSelect.value;
+            interestsSelect.innerHTML = "";
+
+            if (selectedDept && departmentInterestMap[selectedDept]) {
+                departmentInterestMap[selectedDept].forEach(interest => {
+                    const option = document.createElement("option");
+                    option.value = interest;
+                    option.textContent = interest;
+                    interestsSelect.appendChild(option);
+                });
+            }
+
+            $(interestsSelect).select2({
+                placeholder: "Select area(s) of interest",
+                width: "100%"
+            });
+        });
+
+        $(document).ready(function () {
+            $(interestsSelect).select2({
+                placeholder: "Select area(s) of interest",
+                width: "100%"
+            });
+        });
+    </script>
+</body>
+</html>

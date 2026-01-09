@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mentor Requests</title>
+</head>
+<body>
+    <h2>Requests for Mentor: {{ mentor_email }}</h2>
+    <div class="mentor-list">
+        {% if request_list %}
+        {% for request in request_list %}
+            <div class="request-card">
+                <h3>Project: {{ request['project_name'] }}</h3>
+                <p><strong>Project Description:</strong> {{ request['project_description'] }}</p>
+                <p><strong>Mentee Email:</strong> {{ request['mentee_email'] }}</p>
+
+                <!-- Accept or Reject buttons -->
+                <form action="/update_request_status/{{ request['id'] }}" method="post">
+                    <button type="submit" name="status" value="accepted">Accept</button>
+                    <button type="submit" name="status" value="rejected">Reject</button>
+                </form>
+            </div>
+        {% endfor %}
+        {% else %}
+            <p>No pending requests.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

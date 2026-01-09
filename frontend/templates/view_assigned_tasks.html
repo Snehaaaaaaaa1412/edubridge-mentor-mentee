@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assigned Tasks</title>
+</head>
+<body>
+    <h2>Assigned Tasks</h2>
+    <ul id="tasks-list">
+        <!-- Tasks will be loaded here dynamically using JS -->
+    </ul>
+
+    <script>
+        async function fetchTasks() {
+            const menteeEmail = "mentee@example.com"; // Replace with the actual mentee email
+            const response = await fetch(`/tasks/mentee/${menteeEmail}`);
+            const data = await response.json();
+            
+            const tasksList = document.getElementById("tasks-list");
+            data.tasks.forEach(task => {
+                const li = document.createElement("li");
+                li.textContent = `Task: ${task[3]}, Description: ${task[4]}, Project: ${task[7]}`; // task_name, task_description, project_name
+                tasksList.appendChild(li);
+            });
+        }
+
+        fetchTasks();
+    </script>
+</body>
+</html>

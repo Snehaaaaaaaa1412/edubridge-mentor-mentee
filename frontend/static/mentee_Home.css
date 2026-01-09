@@ -1,0 +1,90 @@
+body {
+    background: #e5e9ee; /* Solid blue background */
+    color: #131111;
+    font-family: Arial, sans-serif;
+}
+
+/* Navbar Styling */
+.navbar {
+    background-color: #0d57b8;
+    padding: 15px;
+}
+
+.navbar-brand {
+    font-size: 24px;
+}
+
+.navbar-nav .nav-link {
+    color: #d8d8e6;
+    transition: color 0.3s;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #090913;
+}
+
+/* Hero Section */
+.container.text-center {
+    margin-top: 50px;
+    padding: 30px;
+    background: #eaeef3; /* Solid blue background */
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    font-size: 36px;
+    color: rgb(19, 15, 15);
+}
+
+.btn-primary {
+    background-color: #0d57b8;
+    border-color: #d7e3ec;
+    color: #131010;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #101113;
+}
+
+/* Projects Section */
+.card {
+    background: #eaeef3; /* Solid blue background */
+    color: #181313;
+    border-radius: 10px;
+    border: none;
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.list-group-item {
+    background: #bec1c4; /* Solid blue background */
+    border: none;
+    color: #160909;
+    font-weight: bold;
+}
+
+.list-group-item:hover {
+    background: #7e858d;
+    cursor: pointer;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container.text-center {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    .btn-primary {
+        padding: 8px 15px;
+        font-size: 14px;
+    }
+}

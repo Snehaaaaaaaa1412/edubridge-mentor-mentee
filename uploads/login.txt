@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login / Register</title>
+  <link rel="stylesheet" href="static/style.css">
+
+  <style>
+    body.login-page {
+      background-image: url('images/backgroundimage.jpeg'); /* Update the image path */
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+    }
+
+    .message {
+      text-align: center;
+      color: green;
+      margin-bottom: 20px;
+      font-weight: bold;
+      background-color: #e6ffe6;
+      border: 1px solid green;
+      padding: 10px;
+      border-radius: 5px;
+      max-width: 400px;
+      margin: 20px auto;
+    }
+  </style>
+</head>
+<body class="login-page">
+
+  <!-- Show message if passed in URL -->
+  {% if message %}
+    <div class="message">{{ message }}</div>
+  {% endif %}
+
+  <div class="login-container">
+    <h2>Select Your Role</h2>
+    <div class="role-selection">
+      <a href="/mentor-login" class="role-btn">I am a Mentor</a>
+      <a href="/mentee_login" class="role-btn">I am a Mentee</a>
+    </div>
+  </div>
+
+</body>
+</html>

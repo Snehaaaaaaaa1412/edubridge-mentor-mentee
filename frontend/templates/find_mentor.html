@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Find Mentor</title>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0055aa;
+        }
+        .mentor-list {
+            margin-top: 30px;
+        }
+        .mentor-card {
+            background: #f9f9f9;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .mentor-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+        .mentor-card h3 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+        .mentor-card p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #555;
+        }
+        .mentor-card .interests {
+            font-size: 14px;
+            color: #777;
+        }
+        .mentor-card .interests strong {
+            font-weight: bold;
+        }
+        .request-btn {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .request-btn:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <form action="/find_mentor" method="post" enctype="multipart/form-data">
+        <h2>Find a Mentor</h2>
+
+        <label for="department">Select Department:</label>
+        <select name="department" id="department" required>
+            <option value="">Select Department</option>
+            <option value="Computer Science and Engineering">Computer Science and Engineering</option>
+            <option value="Electronics and Communication Engineering">Electronics and Communication Engineering</option>
+            <option value="Electrical Engineering">Electrical Engineering</option>
+            <option value="Mechanical Engineering">Mechanical Engineering</option>
+            <option value="Applied Sciences">Applied Sciences</option>
+        </select>
+
+        <label for="interests">Select Area(s) of Interest:</label>
+        <select name="interests" id="interests" multiple required style="width: 100%;"></select>
+
+        <button type="submit">Find Mentors</button>
+    </form>
+
+    <div class="mentor-list">
+        {% if mentors %}
+        {% for mentor in mentors %}
+            <div class="mentor-card">
+                <p>Image Path: /uploaded_photos/{{ mentor['profile_photo'] }}</p>
+                <img src="/uploaded_photos/{{ mentor['profile_photo'] }}" alt="Profile Picture" width="100">
+                <h3>{{ mentor['name'] }}</h3>
+                <p>Email: {{ mentor['email'] }}</p>
+                <p class="interests"><strong>Area of Interests:</strong> {{ mentor['interests'] }}</p>
+
+                <!-- Request Mentor Button -->
+                <button class="request-btn" onclick="requestMentor('{{ mentor['email'] }}')">Request Mentor</button>
+            </div>
+        {% endfor %}
+        {% else %}
+            <p>No mentors found for the selected department and interests.</p>
+        {% endif %}
+    </div>
+
+    <script>
+        const menteeEmail = "{{ mentee_email }}";
+    </script>
+    
+    <script>
+        // Open the request form modal
+        function requestMentor(mentorEmail) {
+        const url = `/request_mentor/${mentorEmail}?mentee_email=${menteeEmail}`;
+        window.location.href = url;
+    }
+        // Department Interest Mapping
+        const departmentInterestMap = {
+            "Computer Science and Engineering": [
+                "Data Mining", "Big Data", "Cyber Security", "Machine Learning", 
+                "Blockchain", "Cloud Computing", "Health Informatics", "Image Processing",
+                "Data Analytics", "NoSQL Databases", "Software Engineering", "Recommender Systems", "NoSQL",
+              "Databases", "Query languages interfaces"," Usability","Health Informatics"
+            ],
+            "Electronics and Communication Engineering": [
+                "Signal Processing", "Wireless Communication", "VLSI", "Embedded Systems"
+            ],
+            "Electrical Engineering": [
+                "Power Systems", "Control Systems", "Smart Grid", "Renewable Energy"
+            ],
+            "Mechanical Engineering": [
+                "Robotics", "Thermodynamics", "Fluid Mechanics", "Computational Fluid Dynamics"
+            ],
+            "Applied Sciences": [
+                "Mathematical Modelling", "Quantum Computing", "Physics Simulations"
+            ]
+        };
+
+        const departmentSelect = document.getElementById("department");
+        const interestsSelect = document.getElementById("interests");
+
+        departmentSelect.addEventListener("change", () => {
+            const selectedDept = departmentSelect.value;
+            interestsSelect.innerHTML = "";
+
+            if (selectedDept && departmentInterestMap[selectedDept]) {
+                departmentInterestMap[selectedDept].forEach(interest => {
+                    const option = document.createElement("option");
+                    option.value = interest;
+                    option.textContent = interest;
+                    interestsSelect.appendChild(option);
+                });
+            }
+
+            $(interestsSelect).select2({
+                placeholder: "Select area(s) of interest",
+                width: "100%"
+            });
+        });
+
+        $(document).ready(function () {
+            $(interestsSelect).select2({
+                placeholder: "Select area(s) of interest",
+                width: "100%"
+            });
+        });
+    </script>
+
+</body>
+</html>

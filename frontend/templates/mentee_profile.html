@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mentee Profile</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+
+    .header {
+  display: flex;
+  justify-content: space-between; /* Align items to opposite ends */
+  padding: 10px 20px;
+  background-color: #007bff;
+}
+
+.header a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.left-nav {
+  /* Align Home link to the left */
+  display: flex;
+  align-items: center;
+}
+
+.right-nav {
+  /* Align Logout link to the right */
+  display: flex;
+  align-items: center;
+}
+
+    .container {
+      display: flex;
+      max-width: 1200px;
+      margin: 20px auto;
+      gap: 20px;
+    }
+
+    .sidebar {
+      width: 30%;
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar label {
+      cursor: pointer;
+    }
+
+    .sidebar img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 5px;
+      transition: 0.3s;
+    }
+
+    .sidebar img:hover {
+      opacity: 0.8;
+    }
+
+    .sidebar small {
+      display: block;
+      margin-bottom: 15px;
+      color: #007bff;
+      font-size: 13px;
+    }
+
+    .sidebar h3 {
+      margin: 5px 0;
+    }
+
+    .sidebar p {
+      font-size: 14px;
+      color: gray;
+    }
+
+    .main-content {
+      width: 70%;
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 20px;
+    }
+
+    .tabs button {
+      background: none;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #007bff;
+    }
+
+    .tabs button.active {
+      border-bottom: 2px solid #007bff;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button.submit-btn {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+
+    .checkbox-group label {
+      margin-right: 10px;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Logout Button -->
+  <div class="header">
+    <div class="left-nav">
+      <a href="/mentee_home">Home</a>
+    </div>
+    <div class="right-nav">
+      <a href="/logout">Logout</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Sidebar with profile info -->
+    <div class="sidebar">
+      <form id="photo-form" action="/update-mentee-photo" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="email" value="{{ email }}">
+        <label for="fileInput">
+          <img id="profile-pic" src="{{ profile_photo }}" alt="Profile Photo">
+          <small>Click photo to change</small>
+        </label>
+        <input type="file" id="fileInput" name="file" accept="image/*" onchange="previewPhoto(this); document.getElementById('photo-form').submit();">
+      </form>
+      <h3>{{ name }}</h3>
+      <p>{{ roll_no }}</p>
+      <p>{{ branch }} - {{ course }}</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab-link active" onclick="showTab('view')">View Profile</button>
+        <button class="tab-link" onclick="showTab('edit')">Edit Profile</button>
+        <button class="tab-link" onclick="showTab('password')">Change Password</button>
+      </div>
+
+      <!-- Tab Contents -->
+
+      <!-- View Profile -->
+      <div id="view" class="tab-content active">
+        <p><strong>Email:</strong> {{ email }}</p>
+        <p><strong>Roll No:</strong> {{ roll_no }}</p>
+        <p><strong>Course:</strong> {{ course }}</p>
+        <p><strong>Year:</strong> {{ year }}</p>
+        <p><strong>Branch:</strong> {{ branch }}</p>
+      </div>
+
+      <!-- Edit Profile -->
+<div id="edit" class="tab-content">
+    <form id="edit-form" action="/update-mentee-profile" method="post" onsubmit="return handleEditSubmit(event)">
+      <!-- Hidden input for the original email to identify the record -->
+      <input type="hidden" name="original_email" value="{{ email }}">
+  
+      <!-- Full Name -->
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" name="name" id="name" value="{{ name }}" required>
+      </div>
+  
+      <!-- Email Address -->
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" name="email" id="email" value="{{ email }}" required>
+      </div>
+  
+      <!-- Course Selection -->
+      <div class="form-group">
+        <label for="course">Course</label>
+        <select name="course" id="course" required>
+          <option value="">Select Program</option>
+          <option value="B.Tech" {% if course == "B.Tech" %}selected{% endif %}>B.Tech</option>
+          <option value="M.Tech" {% if course == "M.Tech" %}selected{% endif %}>M.Tech</option>
+        </select>
+      </div>
+  
+      <!-- Year Selection -->
+      <div class="form-group">
+        <label for="year">Year</label>
+        <select name="year" id="year" required>
+          <option value="">Select Year</option>
+          {% if course == "B.Tech" %}
+            <option value="1st" {% if year == "1st" %}selected{% endif %}>1st Year</option>
+            <option value="2nd" {% if year == "2nd" %}selected{% endif %}>2nd Year</option>
+            <option value="3rd" {% if year == "3rd" %}selected{% endif %}>3rd Year</option>
+            <option value="4th" {% if year == "4th" %}selected{% endif %}>4th Year</option>
+          {% elif course == "M.Tech" %}
+            <option value="1st" {% if year == "1st" %}selected{% endif %}>1st Year</option>
+            <option value="2nd" {% if year == "2nd" %}selected{% endif %}>2nd Year</option>
+          {% endif %}
+        </select>
+      </div>
+  
+      <!-- Branch Selection -->
+      <div class="form-group">
+        <label for="branch">Branch</label>
+        <select name="branch" id="branch" required>
+          <option value="">Select Branch</option>
+          <option value="CSE" {% if branch == "CSE" %}selected{% endif %}>CSE</option>
+          <option value="ECE" {% if branch == "ECE" %}selected{% endif %}>ECE</option>
+          <option value="EEE" {% if branch == "EEE" %}selected{% endif %}>EEE</option>
+          <option value="ME" {% if branch == "ME" %}selected{% endif %}>ME</option>
+          <option value="CE" {% if branch == "CE" %}selected{% endif %}>CE</option>
+        </select>
+      </div>
+  
+      <!-- Submit Button -->
+      <div class="center">
+        <button type="submit" class="submit-btn">Update Profile</button>
+      </div>
+    </form>
+  </div>
+  
+
+      <!-- Change Password -->
+      <div id="password" class="tab-content">
+        <form id="password-form" action="/update-mentee-password" method="post" onsubmit="return handlePasswordSubmit(event)">
+          <input type="hidden" name="email" value="{{ email }}">
+
+          <div class="form-group">
+            <label>Current Password</label>
+            <input type="password" name="current_password" required>
+          </div>
+
+          <div class="form-group">
+            <label>New Password</label>
+            <input type="password" name="new_password" required>
+          </div>
+
+          <div class="form-group">
+            <label>Confirm New Password</label>
+            <input type="password" name="confirm_password" required>
+          </div>
+
+          <button type="submit" class="submit-btn">Change Password</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    function showTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.tab-link').forEach(link => link.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    function previewPhoto(input) {
+      const file = input.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('profile-pic').src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function handleEditSubmit(event) {
+      event.preventDefault();
+      const form = document.getElementById('edit-form');
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form)
+      })
+      .then(res => res.ok ? res.text() : Promise.reject('Failed to update'))
+      .then(() => {
+        alert("Profile updated successfully!");
+        const email = form.elements['email'].value;
+        const course = form.elements['course'].value;
+        const year = form.elements['year'].value;
+        const branch = form.elements['branch'].value;
+        const skills = form.elements['skills'].value;
+        const projects = form.elements['projects'].value;
+        document.querySelector('#view').innerHTML = `
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Roll No:</strong> ${roll_no}</p>
+          <p><strong>Course:</strong> ${course}</p>
+          <p><strong>Year:</strong> ${year}</p>
+          <p><strong>Branch:</strong> ${branch}</p>
+          <p><strong>Projects:</strong> ${projects}</p>
+          <p><strong>Skills:</strong> ${skills}</p>
+        `;
+        showTab('view');
+      });
+    }
+
+    function handlePasswordSubmit(event) {
+      event.preventDefault();
+      const form = document.getElementById('password-form');
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form)
+      })
+      .then(res => res.ok ? res.text() : Promise.reject('Failed to change password'))
+      .then(() => {
+        alert("Password changed successfully. Please login again.");
+        window.location.href = "/logout";
+      });
+      return false;
+    }
+  </script>
+</body>
+</html>

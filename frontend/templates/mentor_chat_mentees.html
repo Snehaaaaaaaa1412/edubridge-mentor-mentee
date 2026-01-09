@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mentor Chat Mentees</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f6f8fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navigation bar styling */
+        .navbar {
+            background-color: blue;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            color: white;
+            font-size: 20px;
+            margin: 0;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .navbar ul li a:hover {
+            color: black;
+        }
+
+        /* Page title */
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        /* Main list styling */
+        ul.mentees {
+            list-style: none;
+            padding: 0;
+            max-width: 700px;
+            margin: auto;
+        }
+
+        ul.mentees li {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        strong {
+            font-size: 18px;
+            color: #34495e;
+        }
+
+        small {
+            color: #888;
+        }
+
+        .unread {
+            color: red;
+            font-weight: bold;
+        }
+
+        a.chat-link {
+            display: inline-block;
+            margin-top: 10px;
+            text-decoration: none;
+            color: white;
+            background-color: #3498db;
+            padding: 10px 15px;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+        }
+
+        a.chat-link:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>Chat With Mentees</h1>
+        <ul>
+            <li><a href="/mentor-home">Home</a></li>
+            <li><a href="/mentor-profile">Profile</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </div>
+
+    <h2>Accepted Mentees</h2>
+    <ul class="mentees">
+        {% for mentee in mentees %}
+        <li>
+            <strong>{{ mentee.mentee_name }} ({{ mentee.roll_no }})</strong><br>
+            Last message: {{ mentee.last_message or 'No message yet' }}<br>
+            <small>{{ mentee.last_msg_time or '' }}</small><br>
+            {% if mentee.unread_count > 0 %}
+                <span class="unread">Unread: {{ mentee.unread_count }}</span><br>
+            {% endif %}
+            <a href="/mentor/chat-with-mentee/{{ mentee.mentee_email }}" class="chat-link">Chat with Mentee</a>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
